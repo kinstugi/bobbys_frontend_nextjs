@@ -60,6 +60,10 @@ export default function QuestionDisplayCard(props){
                         problem={props.question.problem} 
                         choices={props.question.options}
                         toggleCode={toggleCodeVisibility}
+                        questionNo= {props.questionNo}
+                        videoUrl={props.question.solution.videoSolutionUrl}
+                        nextProblem={props.moveToNext}
+                        showCode={showCodes}
                     />
                 </div>
             </SplitPane> 

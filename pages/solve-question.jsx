@@ -8,6 +8,11 @@ const SolveQuestions = () => {
   const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const moveToNextProblem = () => {
+    if (currentIndex >= 5) return;
+    setCurrentIndex(currentIndex + 1);
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,7 +31,11 @@ const SolveQuestions = () => {
 
   let body = <></>;
   if (data.length > 0){  
-    body =   (<QuestionDisplayCard question={data[currentIndex]}/>);
+    body =   ( <QuestionDisplayCard  
+      question={data[currentIndex]} 
+      questionNo={currentIndex+1}
+      moveToNext={moveToNextProblem}
+    />);
   }
   
   if (loading) {
@@ -43,14 +52,3 @@ const SolveQuestions = () => {
 };
 
 export default SolveQuestions;
-
-
-
-/*
-const options = {method: 'GET'};
-
-fetch('https://localhost:7129/api/quiz/cards?number=5&pack=2', options)
-  .then(response => response.json())
-  .then(response => console.log(response))
-  .catch(err => console.error(err));
-*/

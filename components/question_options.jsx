@@ -15,12 +15,21 @@ export default function QuestionOptions(props){
         setResult({isCorrect: index.isCorrect, reason: index.message})
     }
 
+    const resetAndMove = () =>{
+        setResult(undefined)
+        props.nextProblem()
+        if (props.showCode){
+            props.toggleCode()
+        }
+    }
+
     let showRes = (<></>)
     if (result !== undefined){
         showRes = <CorrectOrWrong 
             toggleCode={props.toggleCode} 
             isCorrect={result.isCorrect} 
             reason={result.reason}
+            videoUrl={props.videoUrl}
         />
     }
 
@@ -37,7 +46,7 @@ export default function QuestionOptions(props){
             <Stack direction={"column"} justifyContent={"space-between"} sx={{minHeight: '90vh'}}>
                 <Box>
                     <Typography variant='h5' textAlign={"center"}>
-                        Question {1} of {5}
+                        Question {props.questionNo} of {5}
                     </Typography>
                     {showRes}
 
@@ -52,7 +61,7 @@ export default function QuestionOptions(props){
                 
                 <Grid container justifyContent={"end"}>
                     <Grid item px={2}>
-                        <Button >Next Question</Button>
+                        <Button onClick={resetAndMove}>Next Question</Button>
                     </Grid>
                 </Grid>
             </Stack>

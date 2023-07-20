@@ -6,6 +6,7 @@ import Typography  from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
 import { useState } from 'react';
 
 const style = {
@@ -62,6 +63,7 @@ export default function CorrectOrWrong(props){
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Explanation
                         </Typography>
+                        <Link href={props.videoUrl} target='_blank'>link to video explanation</Link>
                         <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                             {props.reason}
                         </Typography>
