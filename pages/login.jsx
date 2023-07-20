@@ -13,23 +13,39 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '@/components/copyright';
+import CircularProgress from '@mui/material/CircularProgress'
+import CustomizedSnackbars from '@/components/custom_snackbar';
 import NLink from 'next/link'
+import apiFuncs from '../utils/api_methods'
+import { useRouter } from 'next/router';
 
 
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
+  const router = useRouter()
+  const [loading, setLoading] = React.useState(false);
+  const [authError, setAuthError] = React.useState(false)
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setAuthError(false);
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    setLoading(true);
+    try {
+      await apiFuncs.loginUser(data.get('email'), data.get('password'))
+      router.push('/dashboard')
+    } catch (error) {
+      setAuthError(true)
+    }
+    setLoading(false);
   };
+  
+  let btnChild = loading ? <CircularProgress /> : "Sign In"
 
   return (
-    
+      <>
+      {authError? <CustomizedSnackbars message="check creds and try again" severity="error"/> : <></>}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -93,7 +109,7 @@ export default function SignInSide() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                {btnChild}
               </Button>
               <Grid container>
                 <Grid item xs>
@@ -112,6 +128,6 @@ export default function SignInSide() {
           </Box>
         </Grid>
       </Grid>
-    
+      </>
   );
 }

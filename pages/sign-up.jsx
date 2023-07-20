@@ -14,21 +14,40 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '@/components/copyright';
 import NLink from 'next/link'
+import apiMethods from '../utils/api_methods'
+import { useRouter } from 'next/router';
+import CircularProgress from '@mui/material/CircularProgress'
+import CustomizedSnackbars from '@/components/custom_snackbar';
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const router = useRouter()
+  const [loading, setLoading] = React.useState(false);
+  const [authError, setAuthError] = React.useState(false)
+  const [sev, setSev] = React.useState({severity: "error", message: "failed to create account"})
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
+    setAuthError(false)
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    setLoading(true)
+    try{
+      await apiMethods.registerUser(data.get('email'), data.get('password'))
+      setSev({severity: "success", message: "account created"})
+      router.push('/login')
+    }catch(err){
+      setSev({severity: "error", message: "failed to register account"})
+      setAuthError(true)
+    }
+    setLoading(false)
   };
 
+  let btnChild = loading ? <CircularProgress severity={sev.severity} message={sev.message}/> : "Sign Up"
+
   return (
-    
+    <>
+      {authError ? <CustomizedSnackbars message="account created" severity={""} /> : <></>}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -102,7 +121,7 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {btnChild}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
@@ -115,6 +134,6 @@ export default function SignUp() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-    
+      </>
   );
 }

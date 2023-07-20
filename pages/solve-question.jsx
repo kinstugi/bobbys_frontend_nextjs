@@ -31,11 +31,7 @@ const SolveQuestions = () => {
 
   let body = <></>;
   if (data.length > 0){  
-    body =   ( <QuestionDisplayCard  
-      question={data[currentIndex]} 
-      questionNo={currentIndex+1}
-      moveToNext={moveToNextProblem}
-    />);
+    body =   ( <QuestionDisplayCard  question={data[currentIndex]} questionNo={currentIndex+1} moveToNext={moveToNextProblem} />);
   }
   
   if (loading) {
