@@ -145,4 +145,10 @@ class Solution:
     `
 };
 
-export default {benefits, dummyCode}
+const modes = [
+    {imageUrl:'https://tinyurl.com/32p298vf', title: 'Learning Mode', mode: 'learning'},  
+    {imageUrl:'https://tinyurl.com/4ak57psa', title: 'Interview Mode', mode: 'interview'}, 
+    {imageUrl:'https://tinyurl.com/2dc7y3j6', title: 'Quiz Mode', mode: 'quiz'},
+];
+
+export default {benefits, dummyCode, modes}

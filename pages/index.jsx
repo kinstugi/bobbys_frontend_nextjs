@@ -2,38 +2,14 @@ import CustomAppBar from '@/components/custom_appbar'
 import Jumbotron from '@/components/jumbotron'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import BodyFit from '@/components/body_fit';
 import Typography from '@mui/material/Typography'
 import StickyFooter from '@/components/footer';
 import Avatar from '@mui/material/Avatar'
 import Link from 'next/link'
 import dummyData from '../data/dummy_data'
-
-function BenefitCards(props){
-    return (
-        <Card>
-            <CardMedia
-            component="img"
-            alt="green iguana"
-            height="200"
-            image={props.benefit.imageurl}
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h6" component="div">
-                    {props.benefit.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {props.benefit.description}
-                </Typography>
-            </CardContent>
-        
-        </Card>
-    )
-}
+import BenefitCard from '@/components/display_card'
 
 function SpecialThanks(props){
     const theme = useTheme();
@@ -53,6 +29,7 @@ function SpecialThanks(props){
 }
 
 export default function Home(){
+    const pack = 1 + Math.floor(Math.random() * 2)
     return (
         <>
             <CustomAppBar/>
@@ -60,14 +37,16 @@ export default function Home(){
                 title="Welcome to Coding Cards Sharp" 
                 description="Helping you ace your technical interview"
             >
-                <Button variant="contained" component={Link} href="/solve-question">Try a quiz</Button>
+                <Button variant="contained" component={Link} href={`/solve-question?mode=quiz&pack=${pack}&count=5`}>
+                    Try a quiz
+                </Button>
             </Jumbotron>
 
             <BodyFit>
                 <Typography variant='h4' textAlign={"center"} mt={5}>Why Coding Cards Sharp</Typography>
                 <Grid container spacing={3} pt={2} pb={2}>
                     {dummyData.benefits.map(e => <Grid item xs={12} md={6}>
-                        <BenefitCards benefit={e}/>
+                        <BenefitCard title={e.title}  imageUrl={e.imageurl} description={e.description}/>
                     </Grid>)}
                 </Grid>
             </BodyFit>
